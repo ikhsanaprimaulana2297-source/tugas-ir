@@ -40,7 +40,7 @@ def cari_dokumen(query_user):
     similarities = cosine_similarity(query_vec, tfidf_matrix).flatten()
     
     # Ambil 5 dokumen paling mirip
-    top_indices = similarities.argsort()[:-6:-1]
+    top_indices = similarities.argsort()[:-1:-10]
     
     hasil = []
     for i in top_indices:
@@ -48,10 +48,12 @@ def cari_dokumen(query_user):
         if skor > 0:
             doc = paper[i]
             hasil.append({
+                'rank': rank,
+                'doc_id': i + 1,
                 'url': doc[0],
                 'judul': doc[1],
                 'waktu': doc[2],
-                'konten': str(doc[3])[:200] + "...",
+                'konten': str(doc[3])[:250] + "...",
                 'skor': round(skor, 4)
             })
     return hasil
